@@ -1,7 +1,7 @@
 {
-    "name": "svelte-component-library-template",
+    "name": "ndtech-svelte-components",
     "version": "0.0.1",
-    "description": "My Svelte Components",
+    "description": "Svelte components for building ndtech applications",
     "svelte": "src/index.js",
     "private": true,
     "scripts": {
@@ -12,8 +12,10 @@
         "lint": "eslint -c .eslintrc.js --ext .js,.svelte,.html .",
         "format:svelte": "prettier --parser html --check **/*.svelte",
         "format:js": "prettier --check **/*.js",
-        "format": "run-p format:svelte format:js",
-        "test": "npx nightwatch"
+        "format": "run-p format:js",
+        "test": "npx nightwatch",
+        "call-prettier": "prettier",
+        "call-eslint": "eslint"
     },
     "devDependencies": {
         "chromedriver": "^87.0.4",
@@ -27,6 +29,7 @@
         "prettier": "^2.2.1",
         "rollup": "^2.35.1",
         "rollup-plugin-commonjs": "^10.1.0",
+        "rollup-plugin-css-only": "^3.1.0",
         "rollup-plugin-livereload": "^2.0.0",
         "rollup-plugin-node-resolve": "^5.2.0",
         "rollup-plugin-svelte": "^7.0.0",
@@ -44,5 +47,8 @@
         "hooks": {
             "pre-commit": "run-s format lint"
         }
+    },
+    "dependencies": {
+        "date-fns": "^2.16.1"
     }
 }

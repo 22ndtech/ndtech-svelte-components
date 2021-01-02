@@ -19,4 +19,9 @@ module.exports = {
     ],
     settings: {},
     extends: ['eslint:recommended', 'prettier'],
+    "rules": {
+        "no-useless-catch": "off",
+    
+        "no-console": "warn"
+      }
 }
