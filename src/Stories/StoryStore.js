@@ -1,10 +1,13 @@
 import {writable} from 'svelte/store';
+import {Context} from '../Context/Context'
+import {RESTStore} from '../RESTResources/RESTStore'
 
-function getStore(inputRestStore){
+Context.storyStore = getStore();
+
+function getStore(){
   let subscribeFunctions = [];
   let nextId = 1;
-  let stories = writable(new Promise(() => {}));
-  let restStore = inputRestStore;
+  let stories = writable([new Promise(() => {})]);
 
   if(stories){
     nextId += stories.length;
@@ -12,7 +15,8 @@ function getStore(inputRestStore){
 
   async function getStories(){
     try{
-      const localStories = await restStore.getCollection('stories') 
+      const localStories = await RESTStore.getCollection('stories');
+      stories.set(Promise.resolve(localStories));
       return localStories;
     }
     catch(err){
@@ -39,50 +43,17 @@ function getStore(inputRestStore){
   }
 
   function addStory(newStory){
-    update((stories) => {
-      // IF:DEBUG:console.log("inside update stories");
-      newStory.id = getNextId();
-      // IF:DEBUG:console.log("newStory.id = " + newStory.id);
-      stories.push(newStory);
-      // IF:DEBUG:console.log("stories = " + stories);
-      // IF:DEBUG:console.log("stories = " + JSON.stringify(stories));
-      // const Story = getStoryModel();
-      // IF:DEBUG:console.log("StoryModel = " + Story);
-
-      // try{
-      //   const story = new Story({});
-      //   stories.push(story);
-      //   console.log("StoryStore.js: don't forget to update the database");
-      // }
-      // catch(err){
-      //   // IF:DEBUG:console.log("err = " + err);
-      //   throw err;
-      // }
-      // IF:DEBUG:console.log("story = " + story);
-      // IF:DEBUG:console.log("story = " + JSON.stringify(story));
-      return stories;
-    })
+    console.log("getNextId() = " + getNextId());
+    return RESTStore.createItem("stories", newStory);
   }
 
   async function deleteStory(id){
-
-    // update((stories) => {
-    //   let storyData = Promise.resolve(restStore.getCollection("stories"));
-
-    //   console.log("deleteStory: stories = " + JSON.stringify(stories))
-    //   stories = stories.filter((story) => {
-    //     story.id != id;
-    //   })
-
-    //   return stories;
-    // })
-
-    await restStore.deleteItem("stories", id);
+    await RESTStore.deleteItem("stories", id);
   }
 
-  function getStory(id) {
-    const story = stories.find(j => j.id === id);
-    return story   
+  async function getStory(id) {
+
+    return await RESTStore.getItem('stories', id);
   }
 
   function getNextId(){
@@ -93,7 +64,8 @@ function getStore(inputRestStore){
   return {set, update, subscribe, addStory, deleteStory, getStory, getStories};
 }
 
-function createStoryStore(restStore){
-  return getStore(restStore);
+function createStoryStore(){
+  return Context.storyStore;
 }
 export const CreateStoryStore = createStoryStore;
+export const StoryStore = Context.storyStore;

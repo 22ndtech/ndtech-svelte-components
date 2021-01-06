@@ -12,29 +12,16 @@
 </svelte:head>
 
 <script>
+  import {StoryStore} from './StoryStore'
   export let goto;
-  // export let stores;
-  // export let api;
-  // export let ButtonGroup;
-  export let restStore;
   
   export let story = { title: '', type: 'text', content: '' }
   let inProgress = false;
 
   async function submit () {
-    console.log("submit");
     inProgress = true
-    const data = story._id ? await restStore.updateItem("stories", story._id, story) : await restStore.createItem("stories", story)
-    //   ? await api.stories.updateStory({
-    //     storyId: story._id,
-    //     story,
-    //     token: $session.user.token
-    //   })
-    //   : await api.stories.createStory({
-    //     story,
-    //     token: $session.user.token
-    //   })
-    goto(`/story/${data._id}`)
+    const data = await StoryStore.addStory(story);
+    goto(`/stories/${data._id}`)
   }
 
   export const buttons=[

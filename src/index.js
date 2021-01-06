@@ -12,10 +12,11 @@ import CreateStory from './Stories/create.svelte'
 import EditStory from './Stories/edit.svelte'
 import Voter from './Voter.svelte'
 import Story from './Stories/Story.svelte'
-import { getData } from './fetcher'
-import { makeRestStore } from './RESTResources'
+import { CreateStoryStore } from './Stories/StoryStore'
+import { RESTStore } from './RESTResources'
 import GithubLogin from './GithubLogin/index.svelte'
 import GitHubLoggedIn from './GithubLogin/loggedIn.svelte'
 import ButtonGroup from './ButtonGroup.svelte'
+import {Context} from './Context/Context'
 
-export { ByeBye, Hello, Stories, CreateStory, EditStory, Voter, Story, getData, makeRestStore, GithubLogin, GitHubLoggedIn, ButtonGroup }
+export { ByeBye, Hello, Stories, CreateStory, EditStory, Voter, Story, CreateStoryStore, RESTStore, GithubLogin, GitHubLoggedIn, ButtonGroup, Context }

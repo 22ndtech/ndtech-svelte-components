@@ -9,7 +9,7 @@
 
   $: domain = story.type === 'link' ? new URL(story.content).hostname : 'self'
 
-  $: storyLink = `/story/${story._id}`
+  $: storyLink = `/stories/${story._id}`
 
   $: link = story.type === 'link' ? story.content : storyLink
 

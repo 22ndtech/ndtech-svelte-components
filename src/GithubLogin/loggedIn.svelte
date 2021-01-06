@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte'
+  import { Context } from '../Context/Context'
 
   export let session;
 
@@ -31,9 +32,8 @@
 
     session.user = user;
     session.set(session);
-    console.log("session = " + session);
-    console.log("JSON.stringify(session) = " + JSON.stringify(session))
-
+    Context.user = user;
+    Context.set(Context);
   })
 </script>
 

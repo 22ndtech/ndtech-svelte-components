@@ -2,10 +2,11 @@
   import { writable } from 'svelte/store'
   import { onMount } from 'svelte'
   import Story from './Story.svelte'
+  import { RESTStore } from '../RESTResources/RESTStore'
   import { CreateStoryStore } from './StoryStore'
+  import { Context } from '../Context/Context'
 
   export let Voter
-  export let restStore
   export let session
   // export let imagePath
 
@@ -13,9 +14,10 @@
   let StoryStore
 
   onMount(async () => {
-    StoryStore = CreateStoryStore(restStore)
+    StoryStore = CreateStoryStore(RESTStore)
     stories = await StoryStore.getStories()
     console.log('stories = ' + stories)
+    // console.log('JSON.stringify(stories) = ' + JSON.stringify(stories))
   })
 
   let upVote = () => {
@@ -28,7 +30,7 @@
   }
 </script>
 
-{#if $session.user}
+{#if $Context.user}
   {#await $stories}
     <img alt="loading" src="loading-circles.gif" />
   {:then $stories}

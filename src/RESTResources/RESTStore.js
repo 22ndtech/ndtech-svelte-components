@@ -1,25 +1,18 @@
 
 import { writable } from 'svelte/store'
 import * as api from './api'
+import {Context} from '../Context/Context'
 
 const cache = new Map();
 
-function makeStore(inputSessionSubscription) {
-  let sessionSubscription = inputSessionSubscription;
-  let session = null;
+function makeStore() {
   const store = writable(new Promise(() => { }))
-
-  function onSessionUpdated(newSession) {
-    console.log("JSON.stringify(newSession) = " + JSON.stringify(newSession));
-    session = newSession;
-  }
 
   async function filter(arr, callback) {
     const fail = Symbol()
     return (await Promise.all(arr.map(async item => (await callback(item)) ? item : fail))).filter(i => i !== fail)
   }
 
-  sessionSubscription.subscribe(onSessionUpdated);
 
   async function getCollection(resourceName) {
 
@@ -30,7 +23,7 @@ function makeStore(inputSessionSubscription) {
     const load = async () => {
       try{
 
-        const response = await api.get("http://localhost:5000/" + resourceName, {}, session.user.token)
+        const response = await api.get("http://localhost:5000/" + resourceName, {}, Context.user.token)
         const data = response.data
         cache.set(resourceName, data)
         store.set(Promise.resolve(data))
@@ -53,7 +46,7 @@ function makeStore(inputSessionSubscription) {
 
   async function deleteItem(resourceName, resourceId) {
 
-    if (session.user) {
+    if (Context.user) {
       try {
 
         if (cache.has(resourceName)) {
@@ -63,7 +56,7 @@ function makeStore(inputSessionSubscription) {
             var keepRecord = resource.id != resourceId;
             if (!keepRecord) {
               try {
-                await api.del("http://localhost:5000/" + resourceName + "/" + resourceId, session.user.token);
+                await api.del("http://localhost:5000/" + resourceName + "/" + resourceId, Context.user.token);
                 console.log("keepRecord = " + keepRecord)
               }
               catch (e) {
@@ -90,7 +83,7 @@ function makeStore(inputSessionSubscription) {
 
   async function updateItem(resourceName, resourceId, resource) {
 
-    if (session.user) {
+    if (Context.user) {
       try {
 
         if (cache.has(resourceName)) {
@@ -104,24 +97,19 @@ function makeStore(inputSessionSubscription) {
             }
           }
 
-          // let filteredArray = await filter(resourceArray, async (resource) => {
-          //   var updatedRecord = resource.id == resourceId;
-          //   if (updatedRecord) {
-          //     try {
+              try {
 
-          //       await api.put("http://localhost:5000/" + resourceName + "/" + resourceId, resource, session.user.token);
-          //       console.log("updatedRecord = " + updatedRecord)
-          //     }
-          //     catch (e) {
-          //       throw e;
-          //     }
-          //   }
-          //   return true;
-          // });
+                await api.put("http://localhost:5000/" + resourceName + "/" + resourceId, resource, Context.user.token);
+              }
+              catch (e) {
+                console.log("RESTStore.updateItem: error calling api.put: e = " + e);
+                throw e;
+              }
 
           // cache.set(resourceName, filteredArray)
           // store.set(filteredArray)
           console.log("logging resource = " + resource + " to get the linter off my back until I implement the real functionality");
+          return resource;
         }
 
       }
@@ -137,16 +125,18 @@ function makeStore(inputSessionSubscription) {
 
   async function createItem(resourceName, resource) {
 
-    if (session.user) {
+    if (Context.user) {
       try {
 
         if (cache.has(resourceName)) {
           const resourceArray = cache.get(resourceName)
-          const newResource = await api.post("http://localhost:5000/" + resourceName, resource, session.user.token);
+          const newResource = await api.post("http://localhost:5000/" + resourceName, resource, Context.user.token);
           resourceArray.push(newResource);
 
           cache.set(resourceName, resourceArray)
           store.set(resourceArray)
+
+          return newResource;
         }
 
       }
@@ -162,7 +152,7 @@ function makeStore(inputSessionSubscription) {
 
   async function getItem(resourceName, resourceId) {
 
-    if (session.user) {
+    if (Context.user) {
 
         if (cache.has(resourceName)) {
           let resourceArray = cache.get(resourceName)
@@ -181,4 +171,4 @@ function makeStore(inputSessionSubscription) {
   return { getCollection, deleteItem, updateItem, createItem, getItem }
 }
 
-export const makeRestStore = makeStore;
+export const RESTStore = makeStore();
