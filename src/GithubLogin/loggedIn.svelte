@@ -1,32 +1,18 @@
 <script>
   import { onMount } from 'svelte'
   import { Context } from '../Context/Context'
+  import { getCookie } from '../Cookies/Cookies'
 
   export let session;
 
   let userName = ''
-
-  function getCookie(cname) {
-    var name = cname + '='
-    var decodedCookie = decodeURIComponent(document.cookie)
-    var ca = decodedCookie.split(';')
-    for (var i = 0; i < ca.length; i++) {
-      var c = ca[i]
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1)
-      }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length)
-      }
-    }
-    return ''
-  }
 
   onMount(async () => {
     const urlSearchParams = new URLSearchParams(window.location.search)
     let userName = urlSearchParams.get('userName')
     const id = urlSearchParams.get('_id')
     const cookie = getCookie('id_token')
+    alert('cookie = ' + cookie);
 
     const user = {"_id": id, "username": userName, token: cookie};
 

@@ -16,7 +16,9 @@ import { CreateStoryStore } from './Stories/StoryStore'
 import { RESTStore } from './RESTResources'
 import GithubLogin from './GithubLogin/index.svelte'
 import GitHubLoggedIn from './GithubLogin/loggedIn.svelte'
+import {GetUser} from './GithubLogin/utitliies'
 import ButtonGroup from './ButtonGroup.svelte'
 import {Context} from './Context/Context'
+import {getCookie} from'./Cookies/Cookies'
 
-export { ByeBye, Hello, Stories, CreateStory, EditStory, Voter, Story, CreateStoryStore, RESTStore, GithubLogin, GitHubLoggedIn, ButtonGroup, Context }
+export { ByeBye, Hello, Stories, CreateStory, EditStory, Voter, Story, CreateStoryStore, RESTStore, GithubLogin, GitHubLoggedIn, GetUser, ButtonGroup, Context, getCookie }
