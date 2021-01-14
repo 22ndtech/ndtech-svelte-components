@@ -12,7 +12,6 @@
     let userName = urlSearchParams.get('userName')
     const id = urlSearchParams.get('_id')
     const cookie = getCookie('id_token')
-    alert('cookie = ' + cookie);
 
     const user = {"_id": id, "username": userName, token: cookie};
 

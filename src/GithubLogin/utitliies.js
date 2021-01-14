@@ -8,7 +8,7 @@ export async function GetUser(token){
     user = Promise.resolve(u);
   }
   catch(err){
-    return false;
+    user = Promise.reject(err);
   }
   return user;
 }

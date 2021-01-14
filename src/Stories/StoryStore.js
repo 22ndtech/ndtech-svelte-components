@@ -20,7 +20,7 @@ function getStore(){
       return localStories;
     }
     catch(err){
-      throw err;
+      stories.set(Promise.reject(err));
     } 
   }
 

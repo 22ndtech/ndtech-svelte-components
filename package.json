@@ -49,6 +49,7 @@
         }
     },
     "dependencies": {
-        "date-fns": "^2.16.1"
+        "date-fns": "^2.16.1",
+        "three": "^0.124.0"
     }
 }

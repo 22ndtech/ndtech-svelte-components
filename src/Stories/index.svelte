@@ -4,20 +4,22 @@
   import Story from './Story.svelte'
   import { RESTStore } from '../RESTResources/RESTStore'
   import { CreateStoryStore } from './StoryStore'
-  import { Context } from '../Context/Context'
+  import GitHubLoginPage from '../GithubLogin/loginPage.svelte'
 
   export let Voter
-  export let session
-  // export let imagePath
 
   let stories = writable(new Promise(() => {}))
   let StoryStore
 
   onMount(async () => {
     StoryStore = CreateStoryStore(RESTStore)
-    stories = await StoryStore.getStories()
-    console.log('stories = ' + stories)
-    // console.log('JSON.stringify(stories) = ' + JSON.stringify(stories))
+    try{
+      stories = await StoryStore.getStories()
+    }
+    catch(err){
+      console.log("3");
+      stories = Promise.reject(err);
+    }
   })
 
   let upVote = () => {
@@ -30,7 +32,6 @@
   }
 </script>
 
-{#if $Context.user}
   {#await $stories}
     <img alt="loading" src="loading-circles.gif" />
   {:then $stories}
@@ -41,12 +42,12 @@
         <br />
       {/each}
     </ul>
+
+    <a href="stories/create" class="new-story-button primary-button">
+      New Story
+    </a>
   {:catch error}
-    <h1>Error accessing Stories!!!</h1>
-    <h2>{error}</h2>
+  <h1>We apologize for the inconvenience but that functionality requires logging in with your FREE GitHub account.</h1>
+  <GitHubLoginPage cssClass="login-link" clientId="2d4079dfff80ceb2c3a7" />
   {/await}
 
-  <a href="stories/create" class="new-story-button primary-button">
-    New Story
-  </a>
-{/if}

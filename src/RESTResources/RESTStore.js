@@ -1,7 +1,7 @@
 
 import { writable } from 'svelte/store'
 import * as api from './api'
-import {Context} from '../Context/Context'
+import { Context } from '../Context/Context'
 
 const cache = new Map();
 
@@ -20,25 +20,20 @@ function makeStore() {
       store.set(Promise.resolve(cache.get(resourceName)))
     }
 
-    const load = async () => {
-      try{
+    try {
 
-        const response = await api.get("http://localhost:5000/" + resourceName, {}, Context.user.token)
-        const data = response.data
-        cache.set(resourceName, data)
-        store.set(Promise.resolve(data))
-      }
-      catch(err){
-        throw err;
-      }
+      const response = await api.get("http://localhost:5000/" + resourceName, {}, Context.user.token)
+      const data = response.data
+      cache.set(resourceName, data)
+      store.set(Promise.resolve(data))
     }
-
-    try{
-      await load()
-    }
-    catch(e){
-      console.log("Error in RESTStore:getCollection: " + e.message);
-      throw e;
+    catch (err) {
+      if(err == "Unauthorized"){
+        store.set(Promise.reject("Unauthorized"));
+      }
+      else{
+        store.set(Promise.reject(err));
+      }
     }
 
     return store
@@ -89,22 +84,22 @@ function makeStore() {
         if (cache.has(resourceName)) {
           let resourceArray = cache.get(resourceName)
 
-          for(var i = 0; i < resourceArray.length; i++){
+          for (var i = 0; i < resourceArray.length; i++) {
             const resource = resourceArray[i];
-            if(resource._id == resourceId){
+            if (resource._id == resourceId) {
               resourceArray[i] = resource;
               break;
             }
           }
 
-              try {
+          try {
 
-                await api.put("http://localhost:5000/" + resourceName + "/" + resourceId, resource, Context.user.token);
-              }
-              catch (e) {
-                console.log("RESTStore.updateItem: error calling api.put: e = " + e);
-                throw e;
-              }
+            await api.put("http://localhost:5000/" + resourceName + "/" + resourceId, resource, Context.user.token);
+          }
+          catch (e) {
+            console.log("RESTStore.updateItem: error calling api.put: e = " + e);
+            throw e;
+          }
 
           // cache.set(resourceName, filteredArray)
           // store.set(filteredArray)
@@ -154,11 +149,11 @@ function makeStore() {
 
     if (Context.user) {
 
-        if (cache.has(resourceName)) {
-          let resourceArray = cache.get(resourceName)
+      if (cache.has(resourceName)) {
+        let resourceArray = cache.get(resourceName)
 
-          return resourceArray.find(element => element._id == resourceId)
-        }
+        return resourceArray.find(element => element._id == resourceId)
+      }
 
     }
     else {
