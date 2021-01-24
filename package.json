@@ -1,6 +1,6 @@
 {
     "name": "ndtech-svelte-components",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Svelte components for building ndtech applications",
     "svelte": "src/index.js",
     "author": "22ndtech",
@@ -22,7 +22,7 @@
         "call-prettier": "prettier",
         "call-eslint": "eslint",
         "preversion": "run-s format lint",
-        "version": "npm run build && git add -A dist",
+        "version": "npm run build && git add -A public",
         "postversion": "git push && git push --tags && rm -rf build/temp && npm publish public"
     },
     "devDependencies": {
