@@ -10,7 +10,7 @@
         "url": "https://github.com/22ndtech/ndtech-svelte-components"
     },
     "scripts": {
-        "build": " copy-package-json-to-public rollup-build",
+        "build": "rollup-build",
         "rollup-build": "rollup -c",
         "autobuild": "rollup -c -w",
         "webserver": "sirv public --single --dev",
@@ -23,7 +23,7 @@
         "call-prettier": "prettier",
         "call-eslint": "eslint",
         "copy-package-json-to-public": "node ./automation/copy-package.json.js",
-        "preversion": "run-s format lint",
+        "preversion": "run-s format lint copy-package-json-to-public",
         "version": "npm run build && git add -A public",
         "postversion": "git push && git push --tags && npm publish public"
     },
