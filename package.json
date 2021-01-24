@@ -3,7 +3,11 @@
     "version": "0.0.1",
     "description": "Svelte components for building ndtech applications",
     "svelte": "src/index.js",
-    "private": true,
+    "author": "22ndtech",
+    "license": "MIT",
+    "repository": {
+        "type" : "git",
+        "url" : "https://github.com/22ndtech/ndtech-svelte-components"},
     "scripts": {
         "build": "rollup -c",
         "autobuild": "rollup -c -w",
@@ -15,7 +19,11 @@
         "format": "run-p format:js",
         "test": "npx nightwatch",
         "call-prettier": "prettier",
-        "call-eslint": "eslint"
+        "call-eslint": "eslint",
+        "preversion": "run-s format lint test",
+        "version": "npm run build && git add -A dist",
+        "postversion": "git push && git push --tags && rm -rf build/temp && npm publish public"
+  
     },
     "devDependencies": {
         "chromedriver": "^87.0.4",
