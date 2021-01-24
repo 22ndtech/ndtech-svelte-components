@@ -1,6 +1,6 @@
 <script>
-  import Stories from './stories/index.svelte'
-  export let name
+  import Logo from './logo/index.svelte'
 </script>
 
-<Stories {name} />
+<Logo />
+<a href="localhost">ndtech logo</a>
