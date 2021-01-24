@@ -1,6 +1,6 @@
 {
     "name": "ndtech-svelte-components",
-    "version": "0.0.4",
+    "version": "0.0.1",
     "description": "Svelte components for building ndtech applications",
     "svelte": "src/index.js",
     "author": "22ndtech",
@@ -23,7 +23,7 @@
         "call-eslint": "eslint",
         "preversion": "run-s format lint",
         "version": "npm run build && git add -A public",
-        "postversion": "git push && git push --tags && rm -rf build/temp && npm publish public"
+        "postversion": "git push && git push --tags && npx rimraf build/temp && npm publish public"
     },
     "devDependencies": {
         "chromedriver": "^87.0.4",
