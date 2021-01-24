@@ -10,8 +10,7 @@
         "url": "https://github.com/22ndtech/ndtech-svelte-components"
     },
     "scripts": {
-        "build": "rollup-build",
-        "rollup-build": "rollup -c",
+        "build": "rollup -c",
         "autobuild": "rollup -c -w",
         "webserver": "sirv public --single --dev",
         "dev": "run-p webserver autobuild",
