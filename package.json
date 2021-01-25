@@ -21,8 +21,8 @@
         "test": "npx nightwatch",
         "call-prettier": "prettier",
         "call-eslint": "eslint",
-        "copy-package-json-to-public": "node ./automation/copy-package.json.js",
-        "preversion": "run-s format lint copy-package-json-to-public",
+        "copy-files-to-public": "node ./automation/copy-files.js",
+        "preversion": "run-s format lint copy-files-to-public",
         "version": "npm run build && git add -A public",
         "postversion": "git push && git push --tags && npm publish public"
     },
@@ -32,6 +32,7 @@
         "eslint-config-prettier": "^7.1.0",
         "eslint-plugin-html": "^6.1.1",
         "eslint-plugin-svelte3": "^3.0.0",
+        "fs-extra": "^9.1.0",
         "husky": "^4.3.6",
         "nightwatch": "^1.5.1",
         "npm-run-all": "^4.1.5",
