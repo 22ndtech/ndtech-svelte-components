@@ -8,8 +8,8 @@ fs.copyFile('package.json', 'public\\package.json', err => {
 
 // copy src folder to the public folder
 fs.copy('src', 'public\\src', err => {
-  if (err){
-    console.log("err.message = " + err.message);
+  if (err) {
+    console.log('err.message = ' + err.message)
   }
 
   console.log('src folder copied successfully')
