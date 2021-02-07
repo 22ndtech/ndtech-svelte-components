@@ -1,6 +1,6 @@
 {
     "name": "ndtech-svelte-components",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "description": "Svelte components for building ndtech applications",
     "svelte": "src/index.js",
     "author": "22ndtech",
