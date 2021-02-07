@@ -1,5 +1,5 @@
 <script>
-  import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+  import {formatDistanceToNow} from 'date-fns'
 
   export let story
   export let Voter
