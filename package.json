@@ -22,8 +22,8 @@
         "call-prettier": "prettier",
         "call-eslint": "eslint",
         "copy-files-to-public": "node ./automation/copy-files.js",
-        "preversion": "run-s format lint copy-files-to-public",
-        "version": "npm run build && git add -A public",
+        "preversion": "run-s format lint",
+        "version": "copy-file-to-public npm run build && git add -A public",
         "postversion": "git push && git push --tags && npm publish public"
     },
     "devDependencies": {
